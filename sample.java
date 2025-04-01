@@ -1,5 +1,5 @@
 class sample{
-    /************************PROBLEM-1***************/
+    /************************PROBLEM-3***************/
     /**
      * Definition for a binary tree node.
      * public class TreeNode {
@@ -54,4 +54,71 @@ class sample{
             return result;
         }
     }
+
+    /********************PROBLEM-2******************/
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     *     int val;
+     *     TreeNode left;
+     *     TreeNode right;
+     *     TreeNode(int x) { val = x; }
+     * }
+     */
+    public class Codec {
+        //tc:0(n)
+        //sc:0(n)
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            if(root==null){
+                return "";
+            }
+            Queue<TreeNode> q=new LinkedList<>();
+            StringBuilder sb=new StringBuilder();
+            q.add(root);
+            while(!q.isEmpty()){
+                TreeNode curr=q.poll();
+
+                if(curr!=null){
+                    sb.append(curr.val);
+                    q.add(curr.left);
+                    q.add(curr.right);
+                }else{
+                    sb.append("null");
+                }
+                sb.append(",");
+            }
+            return sb.toString();
+        }
+        //tc:0(n)
+        //sc:0(n)
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            if(data==null || data.length()==0){
+                return null;
+            }
+
+            String[] strArray=data.split(",");
+            int n=strArray.length;
+            Queue<TreeNode> tree=new LinkedList<>();
+            TreeNode root=new TreeNode(Integer.parseInt(strArray[0]));
+            tree.add(root);
+            int i=1;
+            while(!tree.isEmpty()){
+                TreeNode curr=tree.poll();
+                if(!strArray[i].equals("null")){
+                    curr.left=new TreeNode(Integer.parseInt(strArray[i]));
+                    tree.add(curr.left);
+                }
+                i++;
+                if(!strArray[i].equals("null")){
+                    curr.right=new TreeNode(Integer.parseInt(strArray[i]));
+                    tree.add(curr.right);
+                }
+                i++;
+            }
+            return root;
+        }
+    }
+
 }
