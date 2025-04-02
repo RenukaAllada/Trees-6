@@ -1,4 +1,113 @@
 class sample{
+    /************************PROBLEM-1***************/
+    //Inorder dfs
+    //TC:0(N)
+    //SC:0(h) h=height of tree
+    class Solution {
+        int sum;
+        public int rangeSumBST(TreeNode root, int low, int high) {
+            if(root==null){
+                return 0;
+            }
+            dfs(root,low,high);
+            return sum;
+        }
+
+        private void dfs(TreeNode root,int low,int high){
+            if(root==null){
+                return;
+            }
+
+            dfs(root.left,low,high);
+            if(root.val>=low && root.val<=high){
+                sum+=root.val;
+            }
+            dfs(root.right,low,high);
+        }
+    }
+    //Restricted DFS
+    //TC:0(N)
+    //SC:0(h) h=height of tree
+    class Solution {
+        int sum;
+        public int rangeSumBST(TreeNode root, int low, int high) {
+            if(root==null){
+                return 0;
+            }
+            dfs(root,low,high);
+            return sum;
+        }
+
+        private void dfs(TreeNode root,int low,int high){
+            if(root==null){
+                return;
+            }
+
+            if(root.val>=low){
+                dfs(root.left,low,high);
+            }
+            if(root.val<=high){
+                dfs(root.right,low,high);
+            }
+
+            if(root.val>=low && root.val<=high){
+                sum+=root.val;
+            }
+        }
+    }
+
+    //Iterative
+    class Solution {
+        public int rangeSumBST(TreeNode root, int low, int high) {
+            if(root==null){
+                return 0;
+            }
+            Stack<TreeNode> stack=new Stack<>();
+            int sum=0;
+            while(root!=null || !stack.isEmpty()){
+                while(root!=null){
+                    stack.push(root);
+                    root=root.left;
+                }
+                root=stack.pop();
+
+                if(root.val>=low && root.val<=high){
+                    sum+=root.val;
+                }
+                root=root.right;
+            }
+            return sum;
+        }
+    }
+
+    //Iterative Restricted
+        
+    class Solution {
+        public int rangeSumBST(TreeNode root, int low, int high) {
+            if(root==null){
+                return 0;
+            }
+            Stack<TreeNode> stack=new Stack<>();
+            int sum=0;
+            stack.push(root);
+            while(root!=null || !stack.isEmpty()){
+
+                root=stack.pop();
+                if(root!=null && root.val>low){
+                    stack.push(root.left);
+                }
+                if(root!=null && root.val<high){
+                    stack.push(root.right);
+                }
+                if(root!=null && root.val>=low && root.val<=high){
+                    sum+=root.val;
+                }
+
+            }
+            return sum;
+        }
+    }
+
     /************************PROBLEM-3***************/
     /**
      * Definition for a binary tree node.
